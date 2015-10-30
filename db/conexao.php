@@ -25,13 +25,13 @@ class Conexao{
     }
     
     //essa funcção só funciona para insert,delete e update
-    public function runQuery($sql){
+    public function executarQuery($sql){
         $this->conectar();
-        $this->resultado = mysqli_query($this->conexao, $sql);
+        $this->resultado = mysqli_query($this->conexao, $sql)or die;
           $this->desconectar();
     }
     
-    public function runSelect($sql){
+    public function executarSelect($sql){
         $this->conectar();
         $this->resultado = mysqli_query($this->conexao, $sql);
         
