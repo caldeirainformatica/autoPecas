@@ -26,23 +26,99 @@ class Conexao{
     
     //essa funcção só funciona para insert,delete e update
     public function executarQuery($sql){
-        $this->conectar();
-        $this->resultado = mysqli_query($this->conexao, $sql)or die;
-          $this->desconectar();
+        if(!$this->conectar()){
+           if( $this->resultado = mysqli_query($this->conexao, $sql)){
+                $this->desconectar();
+           }
+           else{
+               return "Não foi possível executar query.";
+           }
+           
+            return true;
+        }else{
+            return "Não foi possível conectar ao banco de dados";
+        }
+        
     }
     
     public function executarSelect($sql){
-        $this->conectar();
-        $this->resultado = mysqli_query($this->conexao, $sql);
-        
-        $registros = array();
-       while($dados = mysqli_fetch_assoc($this->resultado)) {
-          $registros[] = $dados; 
+       if (!$this->conectar()){
+            if($this->resultado = mysqli_query($this->conexao, $sql)){
+                if(mysqli_num_rows($this->resultado)> 0){
+                     $registros = array();
+                    while($dados = mysqli_fetch_assoc($this->resultado)){
+                        $registros[] = $dados; 
+                    }
+                    $this->desconectar();
+                    return $registros;
+                }else{
+                    return "Nenhum resultado encontrado";
+                }
+                   
+            }else{
+                return "Erro ao executar pesquisa";
+            }
+       }else{
+           return "Não foi possível conectar ao banco de dados";
        }
-       $this->desconectar();
-       return $registros;
     }
-   // 
-  // 
+       //função para atualizar
+       function atualizar($coluna,$valor,$tabela,$where){
+        //$coluna e $valor são arrays?
+        if(is_array($coluna)&& is_array($valor)){
+            //tem o mesmo número de elementos?
+            if(count($coluna) == count($valor)){
+                //montar sql
+                $valor_coluna = null;
+                //colocar arrays em uma string
+                for($i = 0;$i < count($coluna);$i++){
+                    $valor_coluna .= "{$coluna[$i]} = '{$valor[$i]}',";
+                }
+                $valor_coluna = substr($valor_coluna,0, -1);
+                
+                $where = ($where == null ? '' : 'WHERE '.$where);
+                $atualizar = "UPDATE {$tabela} SET {$valor_coluna} {$where}";
+            }else{
+                return false;
+            }
+        }else{
+            //montar sql
+            $where = ($where == null ? '' : 'WHERE '.$where);
+            $atualizar = "UPDATE {$tabela} SET {$coluna}  = '{$valor}'{$where}";
+        }
+        return  $this->executarQuery($atualizar);
+    }
+    
+    //outra opção para a função selecionar
+    public function executarSelectAprimorado($tabela,$coluna="*",$where=null,$ordem=null,$limite=null){
+        if(is_array($coluna)){
+            $colunas = substr($coluna,0, -1);
+            $sql = "SELECT {$colunas} FROM {$tabela} {$where}{$ordem}{$limite}";
+        }
+            $sql = "SELECT {$coluna} FROM {$tabela} {$where}{$ordem}{$limite}";
+        
+         
+         if(!$this->conectar()){
+            if($this->resultado = mysqli_query($this->conexao, $sql)){
+                if(mysqli_num_rows($this->resultado)>0){
+                    $resultados_totais = array();
+                    //função msql_fetch_assoc() retorno: [valor][indice]
+                    while($resultado = mysqli_fetch_assoc($this->resultado)){
+                        $resultados_totais[] = $resultado;
+                    }
+                    $this->desconectar();
+                    return $resultados_totais;
+                }else{
+                    return 'Nenhum resultado';
+                } 
+            }else{
+
+                return 'Erro ao executar query';
+            }
+        }else{
+            return 'Erro ao conectar';
+        }
+    }
+   
 
 }
