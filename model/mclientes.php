@@ -1,6 +1,5 @@
 <?php
-/*@author: Daniel Fiuza
- * @date: 30/10/2015
+/*@author Daniel Fiuza <daniel.fuza@hotmail.com>
  */
  require_once 'model/Entity.php';
  require_once 'db/conexao.php';
@@ -33,25 +32,27 @@
     protected $sqlInsert = "insert into clientes (tipo,nome,razao,cnpj_cpf,rg_ie,logradouro,numero,complemento,cep,tel_fixo,email,contato,celular,observacao,uf,cidade,bairro,situacao_id_situacao) 
 			values('%s','%s','%s','%s','%s','%s',%s,'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s',%s)";
     
-    protected $sqlUpdate = "";
-    protected $sqlSelect = "";
-    protected $sqlDelete = "";
      
      function __construct(){
          $this->conexao = new Conexao();
      }
-     
+    
      //função insert
      function insert(){
         $sql = sprintf($this->sqlInsert, $this->getTipo(), $this->getNome(), $this->getRazao(), $this->getCnpj_cpf(), $this->getRg_ie(),
                 $this->getLogradouro(), $this->getNumero(), $this->getComplemento(), $this->getCep(), $this->getTel_fixo(), $this->getEmail(),
                 $this->getContato(),  $this->getCelular(),$this->getObservacao(),  $this->getUf(), $this->getCidade(), $this->getBairro(),$this->getSituacao_id_situacao());
         
-       if(!$this->conexao->executarQuery($sql)){
-           return 'Inserido com Sucesso!';
-       }else{
-           return "query inválida!";
-       }
+        if(($this->conexao->executarSelect("SELECT * from clientes WHERE cnpj_cpf = '{$this->getCnpj_cpf()}' "))== false){
+            if($this->conexao->executarQuery($sql)){
+                return 'Inserido com Sucesso!';
+            }else{
+                return 'Erro: ';
+             } 
+        }else{
+            return 'Já existe cadastro com o cnpj/cpf';
+        }
+
      }
      
      /*Qual a melhor forma de criar a função select?
@@ -63,7 +64,6 @@
      }
      
      function select2($coluna, $where, $ordem, $limite){
-         $limite = ($limite > 100 ? $limite = 100 : false);
          return $this->conexao->executarSelectAprimorado('clientes', $coluna, $where, $ordem, $limite);
      }
      
@@ -72,8 +72,18 @@
         if($this->conexao->atualizar($coluna, $valor, 'clientes', $id)){
            return 'atualizado com Sucesso!';
        }else{
-           return "query inválida!";
+           return 'query inválida!';
        }
+    }
+    
+
+    function delete($id){
+        if(($this->conexao->executarSelect("SELECT * from clientes WHERE id_clientes = {$id} "))){
+            $this->conexao->deletar("clientes", "WHERE id_clientes = {$id}");
+            return 'deletado com sucesso';
+        }else{
+            return 'registro não encontrado';
+        }
     }
      
  }

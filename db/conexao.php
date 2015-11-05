@@ -7,19 +7,19 @@
 class Conexao{
     private $host = 'localhost';
     private $user = 'root';
-    private $password = '';
+    private $password = 'root';
     private $banco = 'automecanica';
     
     private $conexao;
     private $resultado;
 
-
+    //método para a conexão
     function conectar(){
         $this->conexao = mysqli_connect($this->host ,$this->user,$this->password);
         mysqli_select_db($this->conexao,$this->banco) or die(trigger_error('Erro ao selecionar banco de dados'));
     }
     
-    
+    //método para desconectar
     public function desconectar(){
         mysqli_close($this->conexao);
     }
@@ -33,7 +33,6 @@ class Conexao{
            else{
                return "Não foi possível executar query.";
            }
-           
             return true;
         }else{
             return "Não foi possível conectar ao banco de dados";
@@ -41,6 +40,7 @@ class Conexao{
         
     }
     
+    //método para executar select
     public function executarSelect($sql){
        if (!$this->conectar()){
             if($this->resultado = mysqli_query($this->conexao, $sql)){
@@ -52,7 +52,7 @@ class Conexao{
                     $this->desconectar();
                     return $registros;
                 }else{
-                    return "Nenhum resultado encontrado";
+                    return false;
                 }
                    
             }else{
@@ -96,8 +96,6 @@ class Conexao{
             $sql = "SELECT {$colunas} FROM {$tabela} {$where}{$ordem}{$limite}";
         }
             $sql = "SELECT {$coluna} FROM {$tabela} {$where}{$ordem}{$limite}";
-        
-         
          if(!$this->conectar()){
             if($this->resultado = mysqli_query($this->conexao, $sql)){
                 if(mysqli_num_rows($this->resultado)>0){
@@ -120,5 +118,18 @@ class Conexao{
         }
     }
    
+    function deletar($tabela,$where){
+        $sql = "DELETE FROM {$tabela} {$where}";
+        
+        if(!$this->conectar()){
+            if($this->executarQuery($sql)){
+                return 'Deletado com sucesso';
+            }else{
+                return 'Erro ao executar query';
+            }
+        }else{
+            return 'Erro ao conectar ao banco de dados';
+        }
+    }
 
 }

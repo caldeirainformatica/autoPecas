@@ -1,13 +1,16 @@
 <?php
 require_once 'model/mclientes.php';
+require_once 'model/mProdutos.php';
 require_once './db/conexao.php';
 $cliente = new MClientes();
 $con = new Conexao();
+$produto = new MProduto();
+
 $cliente->setTipo("1");
 $cliente->setNome("SAndra");
 $cliente->setRazao("");
 //sempre modificar cpf antes de testar
-$cliente->setCnpj_cpf("000.000.441-34");
+$cliente->setCnpj_cpf("000.000.441-30");
 $cliente->setRg_ie("2.222.202");
 $cliente->setLogradouro("P Sul");
 $cliente->setNumero("13");
@@ -26,37 +29,27 @@ $cliente->setSituacao_id_situacao("1");
 //var_dump($cliente->getNome());
 //var_dump($cliente->insert());
 
-//echo($cliente->insert());
+//print_r($cliente->delete(10));
 
-    function atualizar($coluna,$valor,$tabela,$where){
-        //$coluna e $valor são arrays?
-        if(is_array($coluna)&& is_array($valor)){
-            //tem o mesmo número de elementos?
-            if(count($coluna) == count($valor)){
-                //montar sql
-                $valor_coluna = null;
-                //colocar arrays em uma string
-                for($i = 0;$i < count($coluna);$i++){
-                    $valor_coluna .= "{$coluna[$i]} = '{$valor[$i]}',";
-                }
-                $valor_coluna = substr($valor_coluna,0, -1);
-                
-                $where = ($where == null ? '' : 'WHERE '.$where);
-                $atualizar = "UPDATE {$tabela} SET {$valor_coluna} {$where}";
-            }else{
-                return false;
-            }
-        }else{
-            //montar sql
-            $where = ($where == null ? '' : 'WHERE '.$where);
-            $atualizar = "UPDATE {$tabela} SET {$coluna}  = '{$valor}'{$where}";
-        }
-        return $atualizar;
-    }
+    
 //        $colunas = array('nome','logradouro');
 //        $valores = array('SANDRA' , 'NOROESTE');
 //        $id = '22';
 //        print_r($cliente->update($colunas, $valores, $id));
     
     
-    print_r($con->executarSelectAprimorado("clientes"));
+   // print_r($con->executarSelectAprimorado("clientes"));
+   //print_r($con->executarSelect("SELECT * from clientes WHERE cnpj_cpf = '{$cliente->getCnpj_cpf()}' "));
+   //print_r($con->deletar("clientes", "WHERE id_clientes = 3"));
+
+$produto->setGtim('teste ');
+$produto->setDescricao('teste');
+$produto->setGrupo_id_grupo(1);
+$produto->setSubgrupo_id_subgrupo(1);
+$produto->setNcm_id_ncm(1);
+$produto->setVolume_id_volume(1);
+$produto->setGenero_id_genero(1);
+$produto->setTributacao_id_tributacao(1);
+$produto->setObservacao('teste');
+
+var_dump($produto->insert());
