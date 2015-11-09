@@ -1,8 +1,8 @@
 <?php
 /*@author Daniel Fiuza <daniel.fuza@hotmail.com>
  */
- require_once 'model/Entity.php';
- require_once 'db/conexao.php';
+ require_once '../model/Entity.php';
+ require_once '../db/conexao.php';
  //classe Entity instanciada e chega de criar Getters e Setters!!
  class MClientes extends Entity{
      
@@ -30,7 +30,7 @@
      
      //%s são caracteres coringas que são usados pelo método sprintf
     protected $sqlInsert = "insert into clientes (tipo,nome,razao,cnpj_cpf,rg_ie,logradouro,numero,complemento,cep,tel_fixo,email,contato,celular,observacao,uf,cidade,bairro,situacao_id_situacao) 
-			values('%s','%s','%s','%s','%s','%s',%s,'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s',%s)";
+                            values('%s','%s','%s','%s','%s','%s',%s,'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s',%s)";
     
      
      function __construct(){
@@ -69,14 +69,9 @@
      
     function update($coluna, $valor,$id){
         $id = 'id_clientes = '.$id;
-        if($this->conexao->atualizar($coluna, $valor, 'clientes', $id)){
-           return 'atualizado com Sucesso!';
-       }else{
-           return 'query inválida!';
-       }
+        return $this->conexao->atualizar($coluna, $valor, 'clientes', $id);
     }
     
-
     function delete($id){
         if(($this->conexao->executarSelect("SELECT * from clientes WHERE id_clientes = {$id} "))){
             $this->conexao->deletar("clientes", "WHERE id_clientes = {$id}");

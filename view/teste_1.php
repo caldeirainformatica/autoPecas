@@ -1,16 +1,16 @@
 <?php
-require_once 'model/mclientes.php';
-require_once 'model/mProdutos.php';
-require_once './db/conexao.php';
+require_once '../model/mclientes.php';
+require_once '../model/mProdutos.php';
+require_once '../db/conexao.php';
 $cliente = new MClientes();
 $con = new Conexao();
 $produto = new MProduto();
 
 $cliente->setTipo("1");
-$cliente->setNome("SAndra");
+$cliente->setNome("Daniel");
 $cliente->setRazao("");
 //sempre modificar cpf antes de testar
-$cliente->setCnpj_cpf("000.000.441-30");
+$cliente->setCnpj_cpf("000.000.441-90");
 $cliente->setRg_ie("2.222.202");
 $cliente->setLogradouro("P Sul");
 $cliente->setNumero("13");
@@ -27,9 +27,9 @@ $cliente->setBairro("Por do Sol");
 $cliente->setSituacao_id_situacao("1");
 
 //var_dump($cliente->getNome());
-//var_dump($cliente->insert());
+var_dump($cliente->insert());
 
-//print_r($cliente->delete(10));
+//print_r($cliente->select('select id_clientes,nome,cnpj_cpf from clientes'));
 
     
 //        $colunas = array('nome','logradouro');
@@ -52,4 +52,4 @@ $produto->setGenero_id_genero(1);
 $produto->setTributacao_id_tributacao(1);
 $produto->setObservacao('teste');
 
-var_dump($produto->insert());
+//var_dump($produto->insert());
