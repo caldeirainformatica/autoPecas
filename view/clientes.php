@@ -1,4 +1,5 @@
 <?php
+
 include_once '../control/ConCliente.php';
 $conCliente = new ConCliente();
 $listaClientes = $conCliente->listarClientes();
@@ -24,7 +25,8 @@ $info = (isset($_GET['info'])?$info = $_GET['info']: $info="");
         $('#cnpj').mask('999.999.999/9999-99');
     });
     
-                </script>        
+                </script>      
+               
     </head>
     <body>
         <div class="row">
@@ -46,6 +48,7 @@ $info = (isset($_GET['info'])?$info = $_GET['info']: $info="");
                       </div>
                       <div class="text-right">
                           <button type="button" id="adicionarcliente" class="btn btn-warning">Novo Cliente <span class="glyphicon glyphicon-plus"></span></button>
+                          <input type="submit" class="btn btn-primary" value="Salvar2"/>
                       </div>
                       <br>
                     <table id="table" class="table table-hover table-bordered">
@@ -69,38 +72,8 @@ $info = (isset($_GET['info'])?$info = $_GET['info']: $info="");
             </div>
             </div> 
         </div>    
-        </div>   
-        
-    <!-- Modal -->
-    <div id="modalinserircliente" class="modal fade" role="dialog">
-      <div class="modal-dialog modal-lg">
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Inserir Clientes</h4>
-          </div>
-          <div class="modal-body">
-              <form class="form-horizontal" action="" method="">
-                  <fieldset>
-                      <legend class="">Tipo de pessoa:</legend>
-                      <label class="radio-inline"><input type="radio" name="tipopessoa" id="radiofisica" value="fisica">Física</label>
-                      <label class="radio-inline"><input type="radio" name="tipopessoa" id="radiojuridica" value="juridica">Jurídica</label>
-                      <div id="dadostipo"></div>
-                  </fieldset>
-                  <br>
-                  <input type="text" id="cpf">
-              </form>
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Salvar</button>  
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-    <!--    Fim da Modal    -->
+        </div>  
+        <div id="modal"></div>
     </body>
 </hmtl>
 
