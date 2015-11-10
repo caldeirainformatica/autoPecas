@@ -4,8 +4,9 @@ include_once '../control/ConCliente.php';
 $conCliente = new ConCliente();
 $listaClientes = $conCliente->listarClientes();
 print_r($listaClientes);
-
 $info = (isset($_GET['info'])?$info = $_GET['info']: $info="");
+$acao = (isset($_GET['acao'])?$acao = $_GET['acao']: $acao="");
+$id = (isset($_GET['id'])?$id = $_GET['id']: $id="");
 ?>
 <hmtl>
     <head>
@@ -29,6 +30,9 @@ $info = (isset($_GET['info'])?$info = $_GET['info']: $info="");
                
     </head>
     <body>
+        <?php
+            include'menu.php';
+        ?>
         <div class="row">
             <div class="col-md-2">    
             <div class="container" style="margin-top: 10px;">
@@ -37,18 +41,22 @@ $info = (isset($_GET['info'])?$info = $_GET['info']: $info="");
                   <div class="panel panel-body ">
                       <div>
                           <?php switch($info){
-                              case 'ok':
+                             case '2':
+                                echo '<h1>Registro excluído com Sucesso!</h1>';
+                              break;
+                              case '2':
                                 echo '<h1>Alterado com Sucesso!</h1>';
+                                break;
+                              case '3':
+                               echo '<h1>Novo registro incluído com sucesso!</h1>';
                               break;
                               default :
-                                  echo '<h1>Opção inválida!</h1>';
                               break;
                            }
                           ?>
                       </div>
                       <div class="text-right">
                           <button type="button" id="adicionarcliente" class="btn btn-warning">Novo Cliente <span class="glyphicon glyphicon-plus"></span></button>
-                          <input type="submit" class="btn btn-primary" value="Salvar2"/>
                       </div>
                       <br>
                     <table id="table" class="table table-hover table-bordered">
@@ -61,7 +69,7 @@ $info = (isset($_GET['info'])?$info = $_GET['info']: $info="");
                         <?php foreach($listaClientes as $lista){?>
                                         <tr>
                                             <td><a title="excluir" class="glyphicon glyphicon-trash" id="btnexcluir"></a>
-                                                <a title="editar" id="btnalterar" class="glyphicon glyphicon-pencil" target="#myModal"></a></td>
+                                                <a title="editar" id="btnalterar" class="glyphicon glyphicon-pencil"></a></td>
                                             <td><?php echo $lista['id_clientes'] ?></td>
                                             <td><?php echo $lista['nome'] ?></td>
                                             <td><?php echo $lista['cnpj_cpf'] ?></td>

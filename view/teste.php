@@ -72,4 +72,5 @@ $empresa->setEnquadramento_id_enquadramento("1");
 
 //var_dump($empresa->insert());
 //var_dump($empresa->getEnquadramento_id_enquadramento());
-var_dump($empresa->update("fantasia", "Smoke Weed Everyday", "1"));
+//var_dump($empresa->update("fantasia", "Smoke Weed Everyday", "1"));
+$attrs = get_class_vars(get_class($empresa));
