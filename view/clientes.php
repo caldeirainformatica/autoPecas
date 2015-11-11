@@ -5,8 +5,6 @@ $conCliente = new ConCliente();
 $listaClientes = $conCliente->listarClientes();
 print_r($listaClientes);
 $info = (isset($_GET['info'])?$info = $_GET['info']: $info="");
-$acao = (isset($_GET['acao'])?$acao = $_GET['acao']: $acao="");
-$id = (isset($_GET['id'])?$id = $_GET['id']: $id="");
 ?>
 <hmtl>
     <head>
@@ -19,6 +17,7 @@ $id = (isset($_GET['id'])?$id = $_GET['id']: $id="");
         <link type="text/css" rel="stylesheet" href="../js/bootstrap/css/bootstrap.min.css"/>
         <script type="text/javascript" src="../js/jquery/teste.js"></script>
         <script type="text/javascript" src="js/formularioInserirCliente.js"></script>
+        <script type="text/javascript" src="js/validadorDeCPF.js"></script>
                 <script>
     $("input").click(function(){
         $('#tel').mask('(99)9999-9999?9');
@@ -41,17 +40,17 @@ $id = (isset($_GET['id'])?$id = $_GET['id']: $id="");
                   <div class="panel panel-body ">
                       <div>
                           <?php switch($info){
-                             case '2':
-                                echo '<h1>Registro excluído com Sucesso!</h1>';
-                              break;
-                              case '2':
-                                echo '<h1>Alterado com Sucesso!</h1>';
-                                break;
-                              case '3':
-                               echo '<h1>Novo registro incluído com sucesso!</h1>';
-                              break;
-                              default :
-                              break;
+                                case '2':
+                                   echo '<h1>Registro excluído com Sucesso!</h1>';
+                                 break;
+                                 case '2':
+                                   echo '<h1>Alterado com Sucesso!</h1>';
+                                   break;
+                                 case '3':
+                                  echo '<h1>Novo registro incluído com sucesso!</h1>';
+                                 break;
+                                 default :
+                                 break;
                            }
                           ?>
                       </div>
@@ -60,19 +59,43 @@ $id = (isset($_GET['id'])?$id = $_GET['id']: $id="");
                       </div>
                       <br>
                     <table id="table" class="table table-hover table-bordered">
-                        <tr>
+                        <tr >
                             <td>Ações</td>
                             <td>Id</td>
+                            <td>Tipo</td>
                             <td>Nome</td>
-                            <td>Documento</td>
+                            <td>Razão</td>
+                            <td>CNPJ/CPF</td>
+                            <td>RG/IE</td>
+                            <td>Lograouro</td>
+                            <td>Número</td>
+                            <td>Complemento</td>
+                            <td>CEP</td>
+                            <td>Telefone Fixo</td>
                         </tr>
                         <?php foreach($listaClientes as $lista){?>
                                         <tr>
                                             <td><a title="excluir" class="glyphicon glyphicon-trash" id="btnexcluir"></a>
-                                                <a title="editar" id="btnalterar" class="glyphicon glyphicon-pencil"></a></td>
-                                            <td><?php echo $lista['id_clientes'] ?></td>
-                                            <td><?php echo $lista['nome'] ?></td>
-                                            <td><?php echo $lista['cnpj_cpf'] ?></td>
+                                                <a title="editar" id="btnalterar"class="btnalterar glyphicon glyphicon-pencil"></a></td>
+                                            <td id="idcliente"><?php echo $lista['id_clientes'] ?></td>
+                                            <td id="tipocliente"><?php echo $lista['tipo'] ?></td>
+                                            <td id="nomecliente"><?php echo $lista['nome'] ?></td>
+                                            <td id="razaocliente"><?php echo $lista['razao'] ?></td>
+                                            <td id="documento1cliente"><?php echo $lista['cnpj_cpf'] ?></td>
+                                            <td id="documento2cliente"><?php echo $lista['rg_ie'] ?></td>
+                                            <td id="logradourocliente"><?php echo $lista['logradouro'] ?></td>
+                                            <td id="nomerocliente"><?php echo $lista['numero'] ?></td>
+                                            <td id="complementocliente"><?php echo $lista['complemento'] ?></td>
+                                            <td id="cepcliente"><?php echo $lista['cep'] ?></td>
+                                            <td id="telfixocliente"><?php echo $lista['tel_fixo'] ?></td>
+                                            <td id="emailcliente" hidden="true"><?php echo $lista['email'] ?></td>
+                                            <td id="contatocliente" hidden="true"><?php echo $lista['contato'] ?></td>
+                                            <td id="celularcliente" hidden="true"><?php echo $lista['celular'] ?></td>
+                                            <td id="observacaocliente" hidden="true"><?php echo $lista['observacao'] ?></td>
+                                            <td id="ufcliente" hidden="true"><?php echo $lista['uf'] ?></td>
+                                            <td id="cidadecliente" hidden="true"><?php echo $lista['cidade'] ?></td>
+                                            <td id="bairrocliente" hidden="true"><?php echo $lista['bairro'] ?></td>
+                                            <td id="situacaocliente" hidden="true"><?php echo $lista['situacao_id_situcao'] ?></td>
                                         </tr>
                            <?php }?>
                     </table>
