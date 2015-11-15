@@ -5,9 +5,9 @@
 
 <?php
 
-include '../../db/conexao.php';
+include 'conexao.php';
 
-Class Enquadramento{
+Class ConEnquadramento{
     
     protected $descricao;
     
@@ -35,7 +35,7 @@ Class Enquadramento{
         $conexao = new Conexao();
         $sql = "select * from enquadramento";
         $retorno = $conexao->recuperaSelect($sql);
-        
+        return $retorno;
     }
     public function update($idenquadramento, $descricao){
         $conexao = new Conexao();

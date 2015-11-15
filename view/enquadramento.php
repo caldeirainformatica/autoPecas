@@ -3,7 +3,7 @@
     include_once '../model/head.php';
     include_once '../control/enquadramento/ConEnquadramento.php';
     
-    $enquadramento = new Enquadramento();
+    $enquadramento = new ConEnquadramento();
     $enquadramentos = $enquadramento->recuperaTodos();
 	
    
@@ -15,15 +15,16 @@
             
             <table class="table table-striped" border='5'>
                 <tr>
+                    <td><h3>AÇÃO</h3></td>
                     <td><h3>ID</h3></td>
                     <td><h3>Descricao</h3></td>
                 </tr>
-                <?php foreach ($cursos as $dado){?>
+                <?php foreach ($enquadramentos as $dado){?>
                 <tr>
-                    <td><a title="alterar" href="processamento.php?acao=alterar&id_curso=<?php echo $dado['id_curso']?>"><span class="glyphicon glyphicon-pencil"></span></a>
-                    <a title="excluir" href="processamento.php?acao=excluir&id_curso=<?php echo $dado['id_curso']?>"><span class="glyphicon glyphicon-trash"></span></a></td>
-                    <td><?php echo $dado['idenquadramento'];?></td>
-                    <td><?php echo $dado['descricao'];?></td>
+                    <td><a title="alterar" href="processamento.php?acao=alterar&id_curso=<?php echo $dado['idenquadramento']?>"><span class="glyphicon glyphicon-pencil"></span></a>
+                    <a title="excluir" href="processamento.php?acao=excluir&id_curso=<?php echo $dado['idenquadramento']?>"><span class="glyphicon glyphicon-trash"></span></a></td>
+                    <td><?php echo $dado['idenquadramento'] ?> </td>
+                    <td><?php echo $dado['descricao'] ?> </td>
 
                 </tr>
                 <?php }?>
