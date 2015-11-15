@@ -132,4 +132,32 @@ class Conexao{
         }
     }
 
+//---------------------------------------------------------------------------------------------------------
+// Apartir daqui implementação do Ricardo Caldeira
+
+    public function executaSql($sql){
+        
+        try {
+            
+        $this->conectar();
+        $this->resultado = mysqli_query($this->conexao, $sql);
+        $this->desconectar();
+        return 1;
+        } catch (Exception $ex) {
+            $this->resultado = ('Erro ao executar sql executaSql linha 138'.$ex);
+            return $this->resultado;
+        }
+    }
+    public function recuperaSelect($sql){
+			$this->conectar();
+			
+			$this->resulado = mysqli_query($this->conexao, $sql);
+			
+			$registros = array();
+			while ($dados = mysqli_fetch_assoc($this->resulado)){
+				$registros[] = $dados;
+			}
+			$this->desconectar();
+			return $registros;
+		}
 }
