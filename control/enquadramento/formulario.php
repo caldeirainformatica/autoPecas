@@ -15,6 +15,7 @@
     	<div class="panel-heading">
     		Enquadramento
     	</div>
+            
     	<div class="panel-body">
 	    	<form action="processamento.php" method="get" name="formulario" class="form-horizontal">
                     <input type="hidden" name="idenquadramento" id="idenquadramento" value="<?php echo $conEnquadramento->getIdEnquadramento(); ?>" />

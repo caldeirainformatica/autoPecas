@@ -63,8 +63,7 @@ $titulo = 'enquadramento';
             window.location.href = '../../view/enquadramento.php'
         </script>
         <?php
-        
-    }
+        }
 ?>
                 
     

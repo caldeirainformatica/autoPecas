@@ -47,5 +47,6 @@ class Conexao{
         }
         $this->desconectar();
         return $registros;
-    }
+ 
+        }
 }
