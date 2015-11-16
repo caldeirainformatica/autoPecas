@@ -10,10 +10,19 @@ include 'conexao.php';
 Class ConEnquadramento{
     
     protected $descricao;
-    
+    protected $idEnquadramento;
+
+
     public function getDescricao(){
-        return $descricao;
+        return $this->descricao;
     }
+    public function getIdEnquadramento(){
+        return $this->idEnquadramento;
+    }
+    public function setIdEnquadramento($idEnquadramento){
+        $this->idEnquadramento = $idEnquadramento;
+    }
+
     public function setDescricao($descricao){
         $this->descricao = $descricao;
     }
@@ -25,11 +34,17 @@ Class ConEnquadramento{
         
         return $retorno;
     }
-    public function delet($idEnquadramento){
+    public function delete($idEnquadramento){
+        try {
+            
         $conexao = new Conexao();
-        $sql = "delete from enquadramento where enquadramento.idenquadramento = '$idEnquadramento";
+        $sql = "delete from enquadramento where enquadramento.idenquadramento = '$idEnquadramento'";
         $retorno = $conexao->executaSql($sql);
         return $retorno;
+        } catch (Exception $ex) {
+         return "erro $ex";   
+        }
+        
     }
     public function recuperaTodos(){
         $conexao = new Conexao();
@@ -44,5 +59,15 @@ Class ConEnquadramento{
         return $retorno;
         
     }
+    public function carregarPorId($idenquadramento)
+	{
+		$conexao = new Conexao();
+	
+		$sql = "select * from enquadramento where enquadramento.idenquadramento = '$idenquadramento'";
+		$retorno = $conexao->recuperaSelect($sql);
+		
+		$this->idEnquadramento = $retorno[0]['idenquadramento'];
+		$this->descricao = $retorno[0]['descricao'];
+	}	
     
 }
