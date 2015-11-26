@@ -28,6 +28,7 @@ class Conexao{
     public function executarQuery($sql){
         if(!$this->conectar()){
            if( $this->resultado = mysqli_query($this->conexao, $sql)){
+               return "executado com sucesso<br> ".$sql;
                 $this->desconectar();
            }
            else{
@@ -76,17 +77,15 @@ class Conexao{
                 }
                 $valor_coluna = substr($valor_coluna,0, -1);
                 
-                $where = ($where == null ? '' : 'WHERE '.$where);
                 $atualizar = "UPDATE {$tabela} SET {$valor_coluna} {$where}";
             }else{
                 return false;
             }
         }else{
             //montar sql
-            $where = ($where == null ? '' : 'WHERE '.$where);
             $atualizar = "UPDATE {$tabela} SET {$coluna}  = '{$valor}'{$where}";
         }
-        return  $this->executarQuery($atualizar);
+        return $this->executarQuery($atualizar);
     }
     
     //outra opção para a função selecionar
@@ -123,7 +122,11 @@ class Conexao{
         
         if(!$this->conectar()){
             if($this->executarQuery($sql)){
-                return 'Deletado com sucesso';
+                if(!$this->executarQuery("SELECT FROM $tabela $where")){
+                    return "Erro ao deletar registro.Este registro possui dependência com outro registro";
+                }else{
+                    return "Registro excluído com sucesso";
+                }
             }else{
                 return 'Erro ao executar query';
             }

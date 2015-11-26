@@ -1,0 +1,22 @@
+.menu {
+  background-color: #002241;
+}
+html {
+
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+/*    backgound-image: url("../../img/background.jpg");*/
+    background-color: #1b6d85;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 40px;
+  background-color: #0000FF9;
+}

@@ -1,8 +1,8 @@
 <?php
 /*@author Daniel Fiuza <daniel.fuza@hotmail.com>
  */
- require_once '../model/Entity.php';
- require_once '../db/conexao.php';
+ require_once $_SERVER['DOCUMENT_ROOT'].'/model/Entity.php';
+ require_once $_SERVER['DOCUMENT_ROOT'].'/db/conexao.php';
  //classe Entity instanciada e chega de criar Getters e Setters!!
  class MClientes extends Entity{
      
@@ -55,6 +55,20 @@
 
      }
      
+    function update2($id){
+        $coluna = array(
+            "nome","razao","cnpj_cpf","rg_ie","logradouro",
+            "numero","complemento","cep","tel_fixo","email","contato",
+            "celular","observacao","uf","cidade","bairro","situacao_id_situacao"
+        );
+        $valor = array(
+            $this->getNome(), $this->getRazao(), $this->getCnpj_cpf(), $this->getRg_ie(),
+            $this->getLogradouro(), $this->getNumero(), $this->getComplemento(), $this->getCep(), $this->getTel_fixo(), $this->getEmail(),
+            $this->getContato(),  $this->getCelular(),$this->getObservacao(),  $this->getUf(), $this->getCidade(), $this->getBairro(),$this->getSituacao_id_situacao()
+         );
+        return $this->conexao->atualizar($coluna, $valor, 'clientes', "WHERE id_clientes ={$id}");       
+     }
+     
      /*Qual a melhor forma de criar a função select?
       * 1- criar um select único para a classe passando um parâmetro único também
       * 2- que tal fazer uma função select que retorna os resultados de acordo com a pesquisa realizada?
@@ -68,8 +82,9 @@
      }
      
     function update($coluna, $valor,$id){
-        $id = 'id_clientes = '.$id;
-        return $this->conexao->atualizar($coluna, $valor, 'clientes', $id);
+        $pegarid = "id_clientes =$id ";
+         $this->conexao->atualizar($coluna, $valor, 'clientes', $pegarid);
+         return $pegarid;
     }
     
     function delete($id){

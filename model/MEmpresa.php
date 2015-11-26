@@ -1,6 +1,6 @@
 <?php
- require_once '../model/Entity.php';
- require_once '../db/conexao.php';
+ require_once $_SERVER['DOCUMENT_ROOT'].'/model/Entity.php';
+ require_once $_SERVER['DOCUMENT_ROOT'].'/db/conexao.php';
 class MEmpresa extends Entity{
     
     protected $id_empresa;
@@ -33,23 +33,43 @@ class MEmpresa extends Entity{
                         $this->getCidade(),  $this->getBairro(),  $this->getEnquadramento_id_enquadramento());
         
         if(($this->conexao->executarSelect("SELECT * from empresa WHERE cnpj = '{$this->getCnpj()}' "))== false){
-            return $this->conexao->executarQuery($sql);
-
+            //return $this->conexao->executarQuery($sql);
+            return $sql;
         }else{
             return 'Já existe cadastro com o cnpj/cpf';
         }
     }
-    function update($coluna, $valor,$id){
-        $id = 'id_empresa = '.$id;
-       return $this->conexao->atualizar($coluna, $valor, 'empresa', $id);
+    function update($id){
+        $valor = array(
+           $this->getRazao(),$this->getFantasia(),  $this->getCnpj(),
+            $this->getCnae(),  $this->getInscricaoEstadual(),  $this->getLogradouro(),
+            $this->getNum(),  $this->getComplemento(), $this->getLogo(),  $this->getUf(), 
+            $this->getCidade(),  $this->getBairro(),  $this->getEnquadramento_id_enquadramento()
+        );
+        
+        $coluna = array(
+            "razao","fantasia","cnpj","cnae","inscricaoEstadual","logradouro","num",
+                            "complemento","logo","uf","cidade","bairro","enquadramento_id_enquadramento"
+        );
+        if($this->conexao->atualizar($coluna, $valor, "empresa", "WHERE id_empresa = ".$id)){
+           return 'Alterado com sucesso'; 
+        }else{
+            return 'Erro ao alterar registro';
+        }
     }
 
-    function delete(){
-        
-    }
+    function delete($id){
+        if(($this->conexao->executarSelect("SELECT * from empresa WHERE id_empresa = {$id} "))){
+            $this->conexao->deletar("empresa", "WHERE id_empresa = {$id}");
+            return 'Deletado com sucesso';
+        }else{
+            return 'registro não encontrado';
+        }
+    }        
     
-    function select(){
-        
+    
+    function select($sql){
+        return $this->conexao->executarSelect($sql);
     }
     
 
